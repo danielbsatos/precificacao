@@ -9,9 +9,6 @@ function calcularPreco() {
         return; // Interrompe a função se os campos estiverem vazios
     }
 
-    // Calcula o Markup com base no Preço de Venda
-    const markup = precoVenda / custo;
-
     // Captura dos demais valores (opcionais)
     const impostos = parseFloat(document.getElementById('impostos').value) || 0;
     const taxaCartao = parseFloat(document.getElementById('taxaCartao').value) || 0;
@@ -34,15 +31,16 @@ function calcularPreco() {
     const margemContribuicao = precoVenda - custo - totalDeducoes;
 
     // Defina uma margem mínima desejada (exemplo: 10%)
-    const margemMinimaDesejada = 40; // Em porcentagem
+    const margemMinimaDesejada = 10; // Em porcentagem
 
     // Cálculo do preço de venda mínimo para atingir a margem mínima
-    const precoMinimo = (custo + totalDeducoes) / (1 - margemMinimaDesejada / 100);
+    // Agora consideramos as deduções percentuais no cálculo
+    const precoMinimo = (custo + deducoesReais) / (1 - (margemMinimaDesejada / 100 + (impostos + taxaCartao + comissaoPlataforma + marketing + comissaoVendedor + outrasDeducoes) / 100);
 
     // Exibição do resultado
     let resultadoHTML = `
         <strong>Preço de Venda:</strong> R$ ${precoVenda.toFixed(2)}<br>
-        <strong>Markup Calculado:</strong> ${markup.toFixed(2)}x<br>
+        <strong>Markup Calculado:</strong> ${(precoVenda / custo).toFixed(2)}x<br>
         <strong>Lucro Bruto:</strong> R$ ${lucroBruto.toFixed(2)}<br>
         <strong>Total de Deduções/Despesas:</strong> R$ ${totalDeducoes.toFixed(2)}<br>
         <strong>Margem de Contribuição:</strong> R$ ${margemContribuicao.toFixed(2)}<br>
