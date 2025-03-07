@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Precificação</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calculator">
+        <h1>Calculadora de Precificação</h1>
+
+        <!-- Custo e Markup -->
+        <div class="input-group">
+            <label for="custo">Custo do Produto (R$):</label>
+            <input type="number" id="custo" placeholder="Insira o custo">
+        </div>
+
+        <div class="input-group">
+            <label for="markup">Markup Desejado (x):</label>
+            <input type="number" id="markup" placeholder="Insira o markup">
+        </div>
+
+        <!-- Deduções -->
+        <h2>Deduções</h2>
+
+        <div class="input-group">
+            <label for="impostos">Impostos (%):</label>
+            <input type="number" id="impostos" placeholder="Insira os impostos">
+        </div>
+
+        <div class="input-group">
+            <label for="taxaCartao">Taxa de Cartão (%):</label>
+            <input type="number" id="taxaCartao" placeholder="Insira a taxa de cartão">
+        </div>
+
+        <div class="input-group">
+            <label for="comissaoPlataforma">Comissão da Plataforma (%):</label>
+            <input type="number" id="comissaoPlataforma" placeholder="Insira a comissão">
+        </div>
+
+        <div class="input-group">
+            <label for="marketing">Marketing (%):</label>
+            <input type="number" id="marketing" placeholder="Insira o marketing">
+        </div>
+
+        <div class="input-group">
+            <label for="comissaoVendedor">Comissão do Vendedor (%):</label>
+            <input type="number" id="comissaoVendedor" placeholder="Insira a comissão">
+        </div>
+
+        <div class="input-group">
+            <label for="outrasDeducoes">Outras Deduções (%):</label>
+            <input type="number" id="outrasDeducoes" placeholder="Insira outras deduções">
+        </div>
+
+        <div class="input-group">
+            <label for="custoVenda">Custo de Venda (R$):</label>
+            <input type="number" id="custoVenda" placeholder="Insira o custo de venda">
+        </div>
+
+        <div class="input-group">
+            <label for="embalagem">Embalagem (R$):</label>
+            <input type="number" id="embalagem" placeholder="Insira o custo de embalagem">
+        </div>
+
+        <div class="input-group">
+            <label for="frete">Custo de Frete (R$):</label>
+            <input type="number" id="frete" placeholder="Insira o custo de frete">
+        </div>
+
+        <div class="input-group">
+            <label for="outrosInsumos">Outros Insumos (R$):</label>
+            <input type="number" id="outrosInsumos" placeholder="Insira outros insumos">
+        </div>
+
+        <!-- Botão de cálculo -->
+        <button onclick="calcularPreco()">Calcular Preço de Venda</button>
+
+        <!-- Resultado -->
+        <h2>Resultado:</h2>
+        <p id="resultado"></p>
+
+        <!-- Explicação -->
+        <div id="explicacao">
+            <h3>O que é Margem de Contribuição?</h3>
+            <p>
+                A <strong>Margem de Contribuição</strong> é o valor que sobra da receita após deduzir os custos variáveis e despesas. Ela representa quanto cada produto contribui para cobrir os custos fixos e gerar lucro.
+                <br><br>
+                <strong>Fórmula:</strong> Margem de Contribuição = Sugestão de Venda - Total de Deduções/Despesas
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
