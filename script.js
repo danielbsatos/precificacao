@@ -1,13 +1,16 @@
 function calcularPreco() {
     // Captura dos valores obrigatórios
     const custo = parseFloat(document.getElementById('custo').value);
-    const markup = parseFloat(document.getElementById('markup').value);
+    const precoVenda = parseFloat(document.getElementById('precoVenda').value);
 
     // Validação dos campos obrigatórios
-    if (isNaN(custo) || isNaN(markup)) {
-        alert("⚠️ Por favor, preencha os campos obrigatórios: Custo do Produto e Markup Desejado.");
+    if (isNaN(custo) || isNaN(precoVenda)) {
+        alert("⚠️ Por favor, preencha os campos obrigatórios: Custo do Produto e Preço de Venda.");
         return; // Interrompe a função se os campos estiverem vazios
     }
+
+    // Calcula o Markup com base no Preço de Venda
+    const markup = precoVenda / custo;
 
     // Captura dos demais valores (opcionais)
     const impostos = parseFloat(document.getElementById('impostos').value) || 0;
@@ -22,22 +25,22 @@ function calcularPreco() {
     const outrosInsumos = parseFloat(document.getElementById('outrosInsumos').value) || 0;
 
     // Cálculos
-    const sugestaoVenda = custo * markup;
-    const deducoesPercentuais = sugestaoVenda * (impostos + taxaCartao + comissaoPlataforma + marketing + comissaoVendedor + outrasDeducoes) / 100;
+    const deducoesPercentuais = precoVenda * (impostos + taxaCartao + comissaoPlataforma + marketing + comissaoVendedor + outrasDeducoes) / 100;
     const deducoesReais = custoVenda + embalagem + frete + outrosInsumos;
     const totalDeducoes = deducoesPercentuais + deducoesReais;
-    const lucroBruto = sugestaoVenda - custo;
-    const margemContribuicao = sugestaoVenda - totalDeducoes;
+    const lucroBruto = precoVenda - custo;
+    const margemContribuicao = precoVenda - totalDeducoes;
 
     // Defina uma margem mínima desejada (exemplo: 10%)
-    const margemMinimaDesejada = 30; // Em porcentagem
+    const margemMinimaDesejada = 10; // Em porcentagem
 
     // Cálculo do preço de venda mínimo para atingir a margem mínima
     const precoMinimo = (custo + totalDeducoes) / (1 - margemMinimaDesejada / 100);
 
     // Exibição do resultado
     let resultadoHTML = `
-        <strong>Sugestão de Venda:</strong> R$ ${sugestaoVenda.toFixed(2)}<br>
+        <strong>Preço de Venda:</strong> R$ ${precoVenda.toFixed(2)}<br>
+        <strong>Markup Calculado:</strong> ${markup.toFixed(2)}x<br>
         <strong>Lucro Bruto:</strong> R$ ${lucroBruto.toFixed(2)}<br>
         <strong>Total de Deduções/Despesas:</strong> R$ ${totalDeducoes.toFixed(2)}<br>
         <strong>Margem de Contribuição:</strong> R$ ${margemContribuicao.toFixed(2)}<br>
@@ -51,7 +54,7 @@ function calcularPreco() {
                 Sugerimos aumentar o preço para pelo menos <strong>R$ ${precoMinimo.toFixed(2)}</strong> para garantir uma margem mínima de ${margemMinimaDesejada}%.
             </div>
         `;
-    } else if (margemContribuicao / sugestaoVenda * 100 < margemMinimaDesejada) {
+    } else if (margemContribuicao / precoVenda * 100 < margemMinimaDesejada) {
         resultadoHTML += `
             <div class="aviso">
                 ⚠️ <strong>Atenção!</strong> A margem de contribuição está abaixo do mínimo desejado (${margemMinimaDesejada}%).<br>
