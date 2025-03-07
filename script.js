@@ -34,7 +34,6 @@ function calcularPreco() {
     const margemMinimaDesejada = 10; // Em porcentagem
 
     // Cálculo do preço de venda mínimo para atingir a margem mínima
-    // Agora consideramos as deduções percentuais no cálculo
     const precoMinimo = (custo + deducoesReais) / (1 - (margemMinimaDesejada / 100 + (impostos + taxaCartao + comissaoPlataforma + marketing + comissaoVendedor + outrasDeducoes) / 100);
 
     // Exibição do resultado
