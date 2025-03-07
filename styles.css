@@ -16,7 +16,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* Largura máxima */
+    max-width: 500px; /* Aumentei a largura para acomodar o gráfico */
 }
 
 h1, h2 {
@@ -66,6 +66,15 @@ button:hover {
     margin-top: 20px;
     font-size: 0.9rem;
     line-height: 1.5;
+}
+
+/* Gráfico */
+.grafico-container {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Explicação */
