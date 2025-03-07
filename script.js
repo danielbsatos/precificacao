@@ -1,3 +1,5 @@
+let grafico; // Variável global para o gráfico
+
 function calcularPreco() {
     // Captura dos valores obrigatórios
     const custo = parseFloat(document.getElementById('custo').value);
@@ -64,4 +66,43 @@ function calcularPreco() {
 
     // Exibe o resultado
     document.getElementById('resultado').innerHTML = resultadoHTML;
+
+    // Dados para o gráfico
+    const dadosGrafico = {
+        labels: ['Custo do Produto', 'Deduções Totais', 'Lucro Bruto'],
+        datasets: [{
+            label: 'Valores em R$',
+            data: [custo, totalDeducoes, lucroBruto],
+            backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0'],
+            borderColor: ['#FF6384', '#36A2EB', '#4BC0C0'],
+            borderWidth: 1
+        }]
+    };
+
+    // Configuração do gráfico
+    const configGrafico = {
+        type: 'bar',
+        data: dadosGrafico,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribuição de Gastos e Lucro'
+                }
+            }
+        }
+    };
+
+    // Destruir o gráfico anterior (se existir)
+    if (grafico) {
+        grafico.destroy();
+    }
+
+    // Criar o gráfico
+    const ctx = document.getElementById('grafico').getContext('2d');
+    grafico = new Chart(ctx, configGrafico);
 }
