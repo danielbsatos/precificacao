@@ -32,7 +32,7 @@ function calcularPreco() {
     const margemContribuicao = precoVenda - totalDeducoes;
 
     // Defina uma margem mínima desejada (exemplo: 10%)
-    const margemMinimaDesejada = 10; // Em porcentagem
+    const margemMinimaDesejada = 30; // Em porcentagem
 
     // Cálculo do preço de venda mínimo para atingir a margem mínima
     const precoMinimo = (custo + totalDeducoes) / (1 - margemMinimaDesejada / 100);
