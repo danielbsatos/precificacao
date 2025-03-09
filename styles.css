@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .calculator {
@@ -16,12 +17,29 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px; /* Aumentei a largura para acomodar o gráfico */
+    max-width: 500px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2 {
     text-align: center;
     margin-bottom: 20px;
+}
+
+/* Botão para alternar modo escuro/claro */
+#toggleModo {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#toggleModo:hover {
+    background-color: #218838;
 }
 
 /* Estilo para grupos de input */
@@ -44,7 +62,7 @@ h1, h2 {
     font-size: 0.9rem;
 }
 
-/* Botão */
+/* Botão de cálculo */
 button {
     width: 100%;
     padding: 10px;
@@ -61,14 +79,96 @@ button:hover {
     background-color: #218838;
 }
 
-/* Resultado */
-#resultado {
+/* Cards Interativos */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-top: 20px;
-    font-size: 0.9rem;
-    line-height: 1.5;
 }
 
-/* Gráfico */
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1 1 calc(25% - 20px);
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 1rem;
+    margin: 0;
+    color: #333;
+}
+
+.card p {
+    font-size: 1.2rem;
+    margin: 10px 0 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Tooltips */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+/* Barra de Progresso */
+.progress-container {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #28a745;
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+#textoProgresso {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Gráficos */
 .grafico-container {
     margin-top: 20px;
     width: 100%;
@@ -111,4 +211,47 @@ button:hover {
 
 .aviso strong {
     color: #856404;
+}
+
+/* Modo Escuro */
+body.modo-escuro {
+    background-color: #333;
+    color: #fff;
+}
+
+body.modo-escuro .calculator {
+    background-color: #444;
+    color: #fff;
+}
+
+body.modo-escuro .card {
+    background-color: #555;
+    border-color: #666;
+    color: #fff;
+}
+
+body.modo-escuro .card p {
+    color: #4BC0C0;
+}
+
+body.modo-escuro .progress-bar {
+    background-color: #555;
+}
+
+body.modo-escuro .progress {
+    background-color: #4BC0C0;
+}
+
+body.modo-escuro #explicacao {
+    background-color: #555;
+    border-color: #666;
+    color: #fff;
+}
+
+body.modo-escuro #explicacao h3 {
+    color: #fff;
+}
+
+body.modo-escuro #explicacao p {
+    color: #ddd;
 }
