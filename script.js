@@ -1,4 +1,13 @@
-let grafico; // Variável global para o gráfico
+let graficoGastosLucro; // Variável global para o gráfico de gastos e lucro
+let graficoDeducoes; // Variável global para o gráfico de deduções
+
+// Função para alternar entre modo escuro e claro
+const toggleModo = document.getElementById('toggleModo');
+const body = document.body;
+
+toggleModo.addEventListener('click', () => {
+    body.classList.toggle('modo-escuro');
+});
 
 function calcularPreco() {
     // Captura dos valores obrigatórios
@@ -33,42 +42,26 @@ function calcularPreco() {
     const margemContribuicao = precoVenda - custo - totalDeducoes;
 
     // Defina uma margem mínima desejada (exemplo: 10%)
-    const margemMinimaDesejada = 40; // Em porcentagem
+    const margemMinimaDesejada = 10; // Em porcentagem
 
     // Cálculo do preço de venda mínimo para atingir a margem mínima
     const precoMinimo = (custo + deducoesReais) / (1 - (margemMinimaDesejada / 100 + (impostos + taxaCartao + comissaoPlataforma + marketing + comissaoVendedor + outrasDeducoes) / 100));
 
-    // Exibição do resultado
-    let resultadoHTML = `
-        <strong>Preço de Venda:</strong> R$ ${precoVenda.toFixed(2)}<br>
-        <strong>Markup Calculado:</strong> ${(precoVenda / custo).toFixed(2)}x<br>
-        <strong>Lucro Bruto:</strong> R$ ${lucroBruto.toFixed(2)}<br>
-        <strong>Total de Deduções/Despesas:</strong> R$ ${totalDeducoes.toFixed(2)}<br>
-        <strong>Margem de Contribuição:</strong> R$ ${margemContribuicao.toFixed(2)}<br>
-    `;
+    // Exibição do resultado em Cards
+    document.getElementById('precoVendaResultado').textContent = `R$ ${precoVenda.toFixed(2)}`;
+    document.getElementById('lucroBrutoResultado').textContent = `R$ ${lucroBruto.toFixed(2)}`;
+    document.getElementById('deducoesResultado').textContent = `R$ ${totalDeducoes.toFixed(2)}`;
+    document.getElementById('margemContribuicaoResultado').textContent = `R$ ${margemContribuicao.toFixed(2)}`;
 
-    // Aviso de preço baixo e sugestão de preço mínimo
-    if (margemContribuicao < 0) {
-        resultadoHTML += `
-            <div class="aviso">
-                ⚠️ <strong>Atenção!</strong> O preço de venda está muito baixo e pode resultar em prejuízo.<br>
-                Sugerimos aumentar o preço para pelo menos <strong>R$ ${precoMinimo.toFixed(2)}</strong> para garantir uma margem mínima de ${margemMinimaDesejada}%.
-            </div>
-        `;
-    } else if (margemContribuicao / precoVenda * 100 < margemMinimaDesejada) {
-        resultadoHTML += `
-            <div class="aviso">
-                ⚠️ <strong>Atenção!</strong> A margem de contribuição está abaixo do mínimo desejado (${margemMinimaDesejada}%).<br>
-                Sugerimos aumentar o preço para pelo menos <strong>R$ ${precoMinimo.toFixed(2)}</strong>.
-            </div>
-        `;
-    }
+    // Barra de Progresso
+    const progressoMargem = (margemContribuicao / precoVenda) * 100;
+    const progressoMinimo = margemMinimaDesejada;
 
-    // Exibe o resultado
-    document.getElementById('resultado').innerHTML = resultadoHTML;
+    document.getElementById('progressoMargem').style.width = `${Math.min(progressoMargem, 100)}%`;
+    document.getElementById('textoProgresso').textContent = `${Math.min(progressoMargem, 100).toFixed(2)}%`;
 
-    // Dados para o gráfico
-    const dadosGrafico = {
+    // Dados para o gráfico de gastos e lucro
+    const dadosGastosLucro = {
         labels: ['Custo do Produto', 'Deduções Totais', 'Lucro Bruto'],
         datasets: [{
             label: 'Valores em R$',
@@ -79,10 +72,10 @@ function calcularPreco() {
         }]
     };
 
-    // Configuração do gráfico
-    const configGrafico = {
+    // Configuração do gráfico de gastos e lucro
+    const configGastosLucro = {
         type: 'bar',
-        data: dadosGrafico,
+        data: dadosGastosLucro,
         options: {
             responsive: true,
             plugins: {
@@ -97,12 +90,63 @@ function calcularPreco() {
         }
     };
 
-    // Destruir o gráfico anterior (se existir)
-    if (grafico) {
-        grafico.destroy();
+    // Dados para o gráfico de deduções
+    const dadosDeducoes = {
+        labels: ['Impostos', 'Taxa de Cartão', 'Comissão Plataforma', 'Marketing', 'Comissão Vendedor', 'Outras Deduções', 'Custo de Venda', 'Embalagem', 'Frete', 'Outros Insumos'],
+        datasets: [{
+            label: 'Valores em R$',
+            data: [
+                precoVenda * impostos / 100,
+                precoVenda * taxaCartao / 100,
+                precoVenda * comissaoPlataforma / 100,
+                precoVenda * marketing / 100,
+                precoVenda * comissaoVendedor / 100,
+                precoVenda * outrasDeducoes / 100,
+                custoVenda,
+                embalagem,
+                frete,
+                outrosInsumos
+            ],
+            backgroundColor: [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+            ],
+            borderColor: [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Configuração do gráfico de deduções
+    const configDeducoes = {
+        type: 'bar',
+        data: dadosDeducoes,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Detalhamento das Deduções'
+                }
+            }
+        }
+    };
+
+    // Destruir os gráficos anteriores (se existirem)
+    if (graficoGastosLucro) {
+        graficoGastosLucro.destroy();
+    }
+    if (graficoDeducoes) {
+        graficoDeducoes.destroy();
     }
 
-    // Criar o gráfico
-    const ctx = document.getElementById('grafico').getContext('2d');
-    grafico = new Chart(ctx, configGrafico);
+    // Criar os gráficos
+    const ctxGastosLucro = document.getElementById('graficoGastosLucro').getContext('2d');
+    graficoGastosLucro = new Chart(ctxGastosLucro, configGastosLucro);
+
+    const ctxDeducoes = document.getElementById('graficoDeducoes').getContext('2d');
+    graficoDeducoes = new Chart(ctxDeducoes, configDeducoes);
 }
