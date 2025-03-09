@@ -12,6 +12,9 @@
     <div class="calculator">
         <h1>Calculadora de Precificação</h1>
 
+        <!-- Botão para alternar modo escuro/claro -->
+        <button id="toggleModo">Alternar Modo</button>
+
         <!-- Custo e Preço de Venda -->
         <div class="input-group">
             <label for="custo">Custo do Produto (R$):</label>
@@ -79,13 +82,45 @@
         <!-- Botão de cálculo -->
         <button onclick="calcularPreco()">Calcular</button>
 
-        <!-- Resultado -->
-        <h2>Resultado:</h2>
-        <p id="resultado"></p>
+        <!-- Resultado em Cards -->
+        <div class="cards-container">
+            <div class="card">
+                <span class="card-icon">💰</span>
+                <h3>Preço de Venda</h3>
+                <p id="precoVendaResultado" data-tooltip="Valor final do produto após deduções.">R$ 0,00</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📈</span>
+                <h3>Lucro Bruto</h3>
+                <p id="lucroBrutoResultado" data-tooltip="Diferença entre o preço de venda e o custo do produto.">R$ 0,00</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📉</span>
+                <h3>Deduções Totais</h3>
+                <p id="deducoesResultado" data-tooltip="Soma de todas as deduções e despesas.">R$ 0,00</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">💡</span>
+                <h3>Margem de Contribuição</h3>
+                <p id="margemContribuicaoResultado" data-tooltip="Valor que sobra após deduzir custos e despesas.">R$ 0,00</p>
+            </div>
+        </div>
 
-        <!-- Gráfico -->
+        <!-- Barra de Progresso -->
+        <div class="progress-container">
+            <h3>Progresso para Margem Mínima</h3>
+            <div class="progress-bar">
+                <div id="progressoMargem" class="progress"></div>
+            </div>
+            <p id="textoProgresso">0%</p>
+        </div>
+
+        <!-- Gráficos -->
         <div class="grafico-container">
-            <canvas id="grafico"></canvas>
+            <canvas id="graficoGastosLucro"></canvas>
+        </div>
+        <div class="grafico-container">
+            <canvas id="graficoDeducoes"></canvas>
         </div>
 
         <!-- Explicação -->
