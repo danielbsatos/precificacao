@@ -57,8 +57,26 @@ function calcularPreco() {
     const progressoMargem = (margemContribuicao / precoVenda) * 100;
     const progressoMinimo = margemMinimaDesejada;
 
-    document.getElementById('progressoMargem').style.width = `${Math.min(progressoMargem, 100)}%`;
-    document.getElementById('textoProgresso').textContent = `${Math.min(progressoMargem, 100).toFixed(2)}%`;
+    const progressoMargemElement = document.getElementById('progressoMargem');
+    const textoProgressoElement = document.getElementById('textoProgresso');
+    const avisoProgressoElement = document.getElementById('avisoProgresso');
+
+    progressoMargemElement.style.width = `${Math.min(progressoMargem, 100)}%`;
+    textoProgressoElement.textContent = `${Math.min(progressoMargem, 100).toFixed(2)}%`;
+
+    // Verifica se a margem está abaixo do mínimo
+    if (progressoMargem < progressoMinimo) {
+        progressoMargemElement.style.backgroundColor = '#FF6384'; // Cor vermelha
+        avisoProgressoElement.innerHTML = `
+            <div class="aviso">
+                ⚠️ <strong>Atenção!</strong> A margem de contribuição está abaixo do mínimo desejado (${margemMinimaDesejada}%).<br>
+                Sugerimos aumentar o preço para pelo menos <strong>R$ ${precoMinimo.toFixed(2)}</strong>.
+            </div>
+        `;
+    } else {
+        progressoMargemElement.style.backgroundColor = '#28a745'; // Cor verde
+        avisoProgressoElement.innerHTML = ''; // Remove o aviso
+    }
 
     // Dados para o gráfico de gastos e lucro
     const dadosGastosLucro = {
